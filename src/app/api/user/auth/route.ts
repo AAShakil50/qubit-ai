@@ -1,9 +1,10 @@
 import "server-only";
 
-import { loginUser } from "@/app/_admin/server_admin";
+import { loginUser } from "@/app/_admin/firebase/server_admin";
 // import { getUser } from "@/app/_firebase/server_admin";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { redis } from "@/app/_admin/redis/redis";
 
 // export async function GET(request: Request, response: Response) {
 //   console.log("GET /api/user/auth");
@@ -34,6 +35,7 @@ export async function PUT(request: Request, response: Response) {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 5,
       });
+      await redis.set(session, 1, "EX", 60 * 60 * 24 * 5)
       return Response.json({ message: "Session created" }, { status: 200 });
     }
   } else {
