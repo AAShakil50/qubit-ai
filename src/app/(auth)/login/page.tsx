@@ -1,6 +1,6 @@
 "use client";
 
-import { josefin, kanit } from "@/app/_lib/fonts";
+import { josefin, kanit } from "@/app/_utils/fonts";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { IconMathGreater } from "@tabler/icons-react";
@@ -10,7 +10,7 @@ import {
   getAuth,
   signInWithEmailAndPassword,
 } from "firebase/auth";
-import { app } from "@/app/_firebase/client";
+import { app } from "@/app/lib/client";
 import Link from "next/link";
 
 async function registerToken(creds: UserCredential): Promise<boolean> {

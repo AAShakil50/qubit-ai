@@ -1,6 +1,6 @@
 import "server-only";
 
-import { loginUser } from "@/app/_firebase/server_admin";
+import { loginUser } from "@/app/_admin/server_admin";
 // import { getUser } from "@/app/_firebase/server_admin";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";

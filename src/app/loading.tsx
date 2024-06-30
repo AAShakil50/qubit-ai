@@ -1,4 +1,4 @@
-import { josefin } from "./_lib/fonts";
+import { josefin } from "./_utils/fonts";
 
 export default function Loading() {
   return (

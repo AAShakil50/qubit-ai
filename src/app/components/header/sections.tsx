@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { IconMenu2, IconX } from "@tabler/icons-react";
 import { getAuth } from "firebase/auth";
-import { app, getUserInfo } from "@/app/_firebase/client";
+import { app, getUserInfo } from "@/app/lib/client";
 
 export function AuthName({
   user,

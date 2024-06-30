@@ -1,8 +1,8 @@
 "use client";
 
-import { josefin, kanit } from "@/app/_lib/fonts";
+import { josefin, kanit } from "@/app/_utils/fonts";
 import { getAuth } from "firebase/auth";
-import { app, getUserInfo } from "../../_firebase/client";
+import { app, getUserInfo } from "../../lib/client";
 import { useRouter } from "next/navigation";
 import LabelInput from "@/app/components/label-input";
 import React from "react";

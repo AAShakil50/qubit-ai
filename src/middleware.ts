@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { validateUser } from "@/app/_firebase/server_admin";
+import { validateUser } from "@/app/_admin/server_admin";
 
 function urlStartsWith(request: NextRequest, path: string) {
   return request.nextUrl.pathname.startsWith(path);
