@@ -19,8 +19,21 @@ import { redis } from "@/app/_admin/redis/redis";
 //   return Response.json({ message: "User not found" });
 // }
 
+// Check user session
 export async function POST(request: Request, response: Response) {
-  return Response.error();
+  try {
+    const session = await request.json();
+    if (session && session.token) {
+      const valid = await redis.get(session.token);
+      if (valid) {
+        return Response.json({ message: "Session valid" }, { status: 200 });
+      } else {
+        return Response.json({ message: "Session invalid" }, { status: 400 });
+      }
+    }
+  } catch (e) {
+    return Response.json({ message: "Session invalid" }, { status: 400 });
+  }
 }
 
 // Handle User Login
@@ -35,7 +48,7 @@ export async function PUT(request: Request, response: Response) {
         httpOnly: true,
         maxAge: 60 * 60 * 24 * 5,
       });
-      await redis.set(session, 1, "EX", 60 * 60 * 24 * 5)
+      await redis.set(session, 1, "EX", 60 * 60 * 24 * 5);
       return Response.json({ message: "Session created" }, { status: 200 });
     }
   } else {
@@ -45,6 +58,11 @@ export async function PUT(request: Request, response: Response) {
 
 // Handle User Logout
 export async function DELETE(request: Request, response: Response) {
+  console.log("DELETE /api/user/auth");
+  const session = cookies().get("Session")?.value;
+  if (session) {
+    await redis.del(session);
+  }
   cookies().set("Session", "", {
     httpOnly: true,
     maxAge: 0,

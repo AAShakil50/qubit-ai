@@ -5,3 +5,7 @@ export const redis = new Redis({
   port: parseInt(process.env.REDIS_PORT!),
   password: process.env.REDIS_PASSWORD,
 });
+
+redis.on("error", (error) => {
+  console.error("Error: ", error);
+});

@@ -1,16 +1,26 @@
 import { NextResponse, type NextRequest } from "next/server";
-import { redis } from "./app/_admin/redis/redis";
 
+// Check if the URL starts with the given path
 function urlStartsWith(request: NextRequest, path: string) {
   return request.nextUrl.pathname.startsWith(path);
 }
 
 // Check in the redis if the session was registered
-async function checkSessionExists(session: string): Promise<boolean> {
-  return (await redis.get(session)) != null;
+async function fetchSession(session: string): Promise<boolean> {
+  const session_request = await fetch("http://localhost:3000/api/user/auth", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ token: session }),
+  });
+
+  if (session_request.status === 200) return true;
+  return false;
 }
 
-export function middleware(request: NextRequest) {
+// ! Only using for first-level authorization
+export async function middleware(request: NextRequest) {
   console.log("Middleware: ", request.nextUrl.pathname);
   // Authenticity check on protected routes
   if (
@@ -18,26 +28,18 @@ export function middleware(request: NextRequest) {
     urlStartsWith(request, "/api/user/auth")
   ) {
     const session = request.cookies.get("Session")?.value;
-    if (!session) {
-      // Redirect to login page if Session not available
-      console.log("Session not available");
-      return NextResponse.redirect("/login?required=true");
+
+    if (session) {
+      if (await fetchSession(session)) return NextResponse.next();
+      else return NextResponse.redirect(new URL("/login?required=1", request.url));
     } else {
-      if (!checkSessionExists(session)) {
-        // Redirect to login page if Session does not exist in record
-        console.log("Session not found in record");
-        return NextResponse.redirect("/login?error=1");
-      }else{
-        // Continue to the next middleware
-        console.log("Session found in record");
-        return NextResponse.next();
-      }
+      return NextResponse.redirect(new URL("/login?error=1", request.url));
     }
-  }
-  if (request.nextUrl.pathname.startsWith("/api/user/auth")) {
   }
 }
 
+// todo Add more configurations to the middleware
+// Middleware configuration
 export const config = {
-  matcher: ['/profile', '/api/']
+  matcher: ["/profile", "/api/"],
 };
