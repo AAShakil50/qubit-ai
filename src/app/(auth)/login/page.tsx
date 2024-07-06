@@ -34,10 +34,11 @@ export default function Login() {
   const [email, setEmail] = useState("");
   const [pass, setPass] = useState("");
 
-  const _login = () =>
+  const _login = async () =>
     signInWithEmailAndPassword(getAuth(app), email, pass)
       .then((userCreds) => {
         registerToken(userCreds).then((success) => {
+          console.log("Success: ", success);
           if (success) router.push("/profile");
           else router.push("/login?error=1");
         });
@@ -48,7 +49,7 @@ export default function Login() {
 
   return (
     <form
-      action={(_) => _login()}
+      action={_login}
       className={`flex flex-grow flex-col justify-center items-center`}
     >
       <div className={`${josefin.className} text-7xl font-bold`}>Login</div>

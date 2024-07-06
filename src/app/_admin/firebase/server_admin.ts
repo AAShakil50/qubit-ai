@@ -1,10 +1,11 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 "use server";
 
 import { cert, getApps, initializeApp } from "firebase-admin/app";
 import { getAuth } from "firebase-admin/auth";
 import path from "path";
 
-const getFirebase = () => {
+export const getFirebase = () => {
   console.log(path.join("/qubit-ai-firebase-adminsdk.json"));
   const app = getApps().find((app) => app.name === "server_firebase");
   return (

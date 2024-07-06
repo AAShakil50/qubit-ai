@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
       if (await fetchSession(session)) return NextResponse.next();
       else return NextResponse.redirect(new URL("/login?required=1", request.url));
     } else {
-      return NextResponse.redirect(new URL("/login?error=1", request.url));
+      return NextResponse.redirect(new URL("/login?required=1", request.url));
     }
   }
 }
