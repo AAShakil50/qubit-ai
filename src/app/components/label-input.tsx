@@ -5,13 +5,13 @@ export default function LabelInput({
   type,
   name,
   value,
-  onChange,
+  onChange = () => {},
 }: {
   label: string;
   type: string;
   name: string;
   value?: string;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }) {
   return (
     <>
