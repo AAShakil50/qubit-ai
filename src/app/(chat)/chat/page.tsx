@@ -61,7 +61,7 @@ export default function Chat() {
           <div id="input_prompt" className="mt-8 mb-16 mx-16">
             <div className={`${kanit.className} text-lg font-medium`}>User</div>
             <textarea
-              className="w-full min-h-16 max-h-32 line-clamp-3 mt-2 p-4 border border-slate-200 rounded-lg
+              className="w-full min-h-16 max-h-64 line-clamp-3 mt-2 p-4 border border-slate-200 rounded-lg
                  text-slate-600 focus:outline-slate-300"
               placeholder="Type your message here..."
             />
