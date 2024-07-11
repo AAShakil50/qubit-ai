@@ -90,13 +90,13 @@ export default function Chat() {
 }
 
 interface MessageCardProps {
-  sender: string;
+  sender: "User" | "Qubit";
   message: string;
 }
 
 const MessageCard = ({ sender, message }: MessageCardProps) => {
   return (
-    <div className="mt-2 mx-16">
+    <div className={`mt-2 mx-16 px-4 py-2 rounded-md ${sender === "Qubit" && 'text-right bg-slate-100'}`}>
       <div className={`${kanit.className} text-lg font-medium`}>{sender}</div>
       <div className={`text-lg text-slate-600 leading-5`}>{message}</div>
     </div>
